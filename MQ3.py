@@ -1,17 +1,15 @@
 import paho.mqtt.client as mqtt
+import RPi.GPIO as GPIO
 import time
-import spidev
 
-# Setup SPI for MCP3008
-spi = spidev.SpiDev()
-spi.open(0, 0)  # Open SPI bus 0, device 0 (CE0)
-spi.max_speed_hz = 1350000
+# Set up the GPIO mode
+GPIO.setmode(GPIO.BCM)
 
-# Function to read from MCP3008
-def read_adc(channel):
-    adc = spi.xfer2([1, (8 + channel) << 4, 0])
-    data = ((adc[1] & 3) << 8) + adc[2]
-    return data
+# Define the GPIO pin where the MQ3 digital output is connected
+mq3_digital_pin = 17  # Connect MQ3 DOUT to GPIO17
+
+# Set up the GPIO pin as an input
+GPIO.setup(mq3_digital_pin, GPIO.IN)
 
 # Define the MQTT broker details
 broker = "75a6d5883ba24aafa29b3f1f830f6464.s1.eu.hivemq.cloud"  # HiveMQ Cloud broker
@@ -49,33 +47,35 @@ client.connect(broker, port)
 # Start the MQTT loop in a background thread
 client.loop_start()
 
-# Main loop for reading from MQ3 sensor and publishing raw data
 try:
     while True:
-        # Read from MCP3008 channel 0 (where MQ3 sensor is connected)
-        adc_value = read_adc(0)  # Read the raw analog data
+        # Read the digital output from the MQ3 sensor
+        gas_detected = GPIO.input(mq3_digital_pin)
         
-        # Print the raw data for local logging
-        print(f"Raw ADC Value: {adc_value}")
+        # Prepare the message to be sent over MQTT
+        data = "Gas detected!" if gas_detected else "No gas detected."
+
+        # Print the data for local logging
+        print(data)
         
-        # Publish the raw data to the MQTT topic
-        result = client.publish(topic, str(adc_value))  # Send raw data as string
+        # Publish the data to the MQTT topic
+        result = client.publish(topic, data)
         
         # Check if publish was successful
         status = result[0]
         if status == 0:
-            print(f"Sent `{adc_value}` to topic `{topic}`")
+            print(f"Sent `{data}` to topic `{topic}`")
         else:
             print(f"Failed to send message to topic {topic}")
         
-        # Sleep for 5 seconds before next read
+        # Sleep for a short period before reading again
         time.sleep(5)
 
-# Handle script interruption (e.g., Ctrl+C)
 except KeyboardInterrupt:
-    print("Exiting...")
+    print("Exiting program...")
 
-# Cleanup
 finally:
+    # Cleanup GPIO and MQTT loop when the program is terminated
+    GPIO.cleanup()
     client.loop_stop()  # Stop the MQTT loop
-    spi.close()  # Close the SPI connection
+    client.disconnect()  # Disconnect from the broker
