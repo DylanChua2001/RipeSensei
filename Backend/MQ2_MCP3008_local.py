@@ -16,7 +16,7 @@ cs = digitalio.DigitalInOut(board.D8)
 mcp = MCP3008(spi, cs)
 
 # Create an analog input channel on pin 0 for the MQ-2
-gas_sensor = AnalogIn(mcp, MCP3008.P0)
+gas_sensor = AnalogIn(mcp, 1)
 
 try:
     while True:
