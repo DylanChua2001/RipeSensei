@@ -17,7 +17,7 @@ cs = digitalio.DigitalInOut(board.D8)
 mcp = MCP3008(spi, cs)
 
 # Create an analog input channel on pin 0 for the MQ-2
-gas_sensor = AnalogIn(mcp, MCP3008.P0)
+gas_sensor = AnalogIn(mcp, 1)
 
 # Define the MQTT broker details
 broker = "75a6d5883ba24aafa29b3f1f830f6464.s1.eu.hivemq.cloud"  # HiveMQ Cloud broker
