@@ -1,3 +1,6 @@
+# for sending to server
+
+
 import time
 import board
 import digitalio
