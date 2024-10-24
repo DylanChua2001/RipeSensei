@@ -1,0 +1,7 @@
+humidy sensor works
+
+mq2, mq3 all works
+
+humidity.py - kx edited and works
+GPIO 26 for dht11 humidity sensor
+sensor issue - add a pause as it was reading too fast
