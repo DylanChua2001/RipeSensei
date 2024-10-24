@@ -25,3 +25,6 @@ def read_mq135():
         gas_detected = "Gas Detected!" if analog_value > 300 else "No Gas Detected"
         print(f"MQ135 - Analog Value: {analog_value}, Voltage: {voltage:.2f}V, Status: {gas_detected}")
         time.sleep(1)
+
+if __name__ == "__main__":
+    read_mq135()

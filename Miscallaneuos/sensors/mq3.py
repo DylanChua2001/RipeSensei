@@ -24,3 +24,6 @@ def read_mq3():
         voltage = chan.voltage
         print(f"MQ3 - Analog Value: {analog_value}, Voltage: {voltage:.2f}V")
         time.sleep(1)
+
+if __name__ == "__main__":
+    read_mq3()
