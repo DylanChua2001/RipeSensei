@@ -4,7 +4,24 @@ Every year, a lot of food is thrown away because of spoilage. Just last year alo
 
 Through this, supermarket can use the data collected to effectively price vegetables according to their freshness. RipeSensei aims to do that by measuring a variety of gases (Ethylene, Ammonia, Methane and other Metal Oxide gases). This data is further supplemented with imagery data from camera to better predict the stage of food ripening. Furthermore, we will also measure food storage conditions (Temperature and Humidity) to prolong food freshness.
 
-## Hardware Needed
+## Project Setup
+
+Hardware Overview:
++ Raspberry Pi 4B
+    + Other models may work too
++ MQ-135 
+    + NH3 NOx Alcohol Benzene Smoke CO2 Gas Sensor
++ MQ-3
+    + Medal Oxide Semiconductor / Chemiresistor
++ MQ-5
+    + Tin Dioxide (SnO2) Butane, Propane, Methane, Natural Gas Sensor
++ MQ-2 
+    + Smoke & Flammable Gas Sensor
++ MCP3008
+    + Analogue to Digital Converter
+
+
+### Set up the Raspberry Pi 
 
 
 ```{python}
@@ -15,3 +32,16 @@ adafruit-circuitpython-mcp3xxx==1.4.18
 adafruit-circuitpython-dht==4.0.5
 ```
 
+# Commands to set up the raspberry pi for the project
+
+# navigate to project folder
+cd desktop/projects # replace with project directory
+
+# create virtual environment (skip this step command if environment already created)
+python -m venv cps_project
+
+# activate virtual environment
+source myenv/bin/activate
+
+# install packages
+pip install -r requirements.txt
