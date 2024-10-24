@@ -1,0 +1,5 @@
+RPi.GPIO==0.7.1
+spidev==3.6
+adafruit-blinka==8.49.0
+adafruit-circuitpython-mcp3xxx==1.4.18
+adafruit-circuitpython-dht==4.0.5
