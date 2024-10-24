@@ -1,0 +1,8 @@
+tested MQ2
+
+backend created
+connected and hosted on vercelDB
+additonal sensors of MQ135 amd MQ5 
+
+RPi .py codes standardisation work in progress, some progress made
+
