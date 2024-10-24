@@ -23,15 +23,17 @@ chan = AnalogIn(mcp, ADC_CHANNEL)
 def read_mq2():
     while True:
         try:
-            analog_value = chan.value
-            voltage = chan.voltage
-            gas_detected = "Gas Detected!" if analog_value > GAS_THRESHOLD else "No Gas Detected"
-            print(f"MQ2 - Analog Value: {analog_value}, Voltage: {voltage:.2f}V, Status: {gas_detected}")
-            time.sleep(1)
+            while True:
+                try:
+                    analog_value = chan.value
+                    voltage = chan.voltage
+                    gas_detected = "Gas Detected!" if analog_value > GAS_THRESHOLD else "No Gas Detected"
+                    print(f"MQ2 - Analog Value: {analog_value}, Voltage: {voltage:.2f}V, Status: {gas_detected}")
+                    time.sleep(1)
+                except Exception as e:
+                    print(f"An error occurred: {e}")
         except KeyboardInterrupt:
             print("Process interrupted by user.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
         finally:
             GPIO.cleanup()
             print("Cleaned up GPIO resources.")
